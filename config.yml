@@ -1,0 +1,4 @@
+database:
+  driverClass: org.sqlite.JDBC
+  url: "jdbc:sqlite::memory:"
+
