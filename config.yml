@@ -2,3 +2,7 @@ database:
   driverClass: org.sqlite.JDBC
   url: "jdbc:sqlite::memory:"
 
+server:
+  applicationConnectors:
+  - type: http
+    port: 8080
