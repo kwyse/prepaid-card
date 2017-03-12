@@ -15,7 +15,7 @@ serves as a demonstration. :grin:
 ## Usage
 
 The Goron Elder wishes to acquire a new card. He sends a `POST` request to
-`/card` along the lines of:
+`/cards` along the lines of:
 
 ```json
 {
