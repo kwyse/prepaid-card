@@ -4,13 +4,16 @@
 
 Provides a REST API for common prepaid card operations, such as loading
 money onto a card and merchants authorizing payment. All data is stored in
-an in-memory SQLite database. You can play around with it
-[here](https://prepaid-card.herokuapp.com/cards). It has some bugs and the
-deployed version does not necessarily match this repo, but it serves as a
-demonstration. :grin:
+an in-memory SQLite database. Built with Dropwizard.
+
+You can play around with it [here](https://prepaid-card.herokuapp.com/cards).
+Heroku [doesn't play well](https://devcenter.heroku.com/articles/sqlite3) with
+SQLite, so you will likely see some strange things (creating cards and seeing
+the ROWID increase but seeing no cards on the root GET request). But is still
+serves as a demonstration. :grin:
 
 ## Future Improvements
 
 * Adding a statements endpoint
-* Moving to an on-disk database
+* Moving to an on-disk database (probably PostgreSQL becaues of Heroku)
 * Actually transferring the money to the merchants
