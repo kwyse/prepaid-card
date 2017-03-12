@@ -19,7 +19,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 public class MerchantResourceTest {
-    private static MerchantDao merchantDao = mock(MerchantDao.class);
+    private static final MerchantDao merchantDao = mock(MerchantDao.class);
 
     @ClassRule
     public static final ResourceTestRule resources = ResourceTestRule.builder()

@@ -13,9 +13,9 @@ import java.util.List;
 @Path("/cards")
 @Produces(MediaType.APPLICATION_JSON)
 public class CardResource {
-    private CardDao cardDao;
-    private BlockedCardDao blockedCardDao;
-    private TransactionDao transactionDao;
+    private final CardDao cardDao;
+    private final BlockedCardDao blockedCardDao;
+    private final TransactionDao transactionDao;
 
     public CardResource(CardDao cardDao, BlockedCardDao blockedCardDao, TransactionDao transactionDao) {
         this.cardDao = cardDao;

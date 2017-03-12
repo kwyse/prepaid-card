@@ -5,8 +5,6 @@ import com.krishanwyse.prepaidcard.core.mapper.TransactionMapper;
 import org.skife.jdbi.v2.sqlobject.*;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 
-import java.util.List;
-
 @RegisterMapper(TransactionMapper.class)
 public interface TransactionDao {
     @SqlUpdate(
@@ -24,5 +22,5 @@ public interface TransactionDao {
     int getBlockedAmountById(@Bind("id") long id);
 
     @SqlUpdate("UPDATE transactions SET remaining = :remaining, captured = :captured WHERE id = :id")
-    long update(@Bind("id") long id, @Bind("remaining") double remaining, @Bind("captured") double captured);
+    void update(@Bind("id") long id, @Bind("remaining") double remaining, @Bind("captured") double captured);
 }

@@ -4,14 +4,13 @@ import com.krishanwyse.prepaidcard.core.*;
 import com.krishanwyse.prepaidcard.db.MerchantDao;
 
 import javax.ws.rs.*;
-import javax.ws.rs.BadRequestException;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 @Path("/merchants")
 @Produces(MediaType.APPLICATION_JSON)
 public class MerchantResource {
-    private MerchantDao merchantDao;
+    private final MerchantDao merchantDao;
 
     public MerchantResource(MerchantDao merchantDao) {
         this.merchantDao = merchantDao;

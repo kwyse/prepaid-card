@@ -1,6 +1,5 @@
 package com.krishanwyse.prepaidcard;
 
-import com.krishanwyse.prepaidcard.core.Transaction;
 import com.krishanwyse.prepaidcard.db.BlockedCardDao;
 import com.krishanwyse.prepaidcard.db.CardDao;
 import com.krishanwyse.prepaidcard.db.MerchantDao;
@@ -11,12 +10,11 @@ import io.dropwizard.Application;
 import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import org.skife.jdbi.v2.Batch;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
 
 public class App extends Application<AppConfiguration> {
-    public static void main( String[] args ) throws Exception {
+    public static void main(String[] args) throws Exception {
         new App().run(args);
     }
 
