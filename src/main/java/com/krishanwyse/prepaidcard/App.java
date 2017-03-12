@@ -38,7 +38,6 @@ public class App extends Application<AppConfiguration> {
                 "(id INTEGER PRIMARY KEY, card INT, merchant INT, remaining REAL, captured REAL, " +
                 "FOREIGN KEY(card) REFERENCES cards(id))"
         );
-//        handle.execute("create table transactions (id integer primary key, card int, merchant int, remaining real, captured real, foreign key(card) references cards(id))");
 
         handle.execute("CREATE TABLE merchants (id INTEGER PRIMARY KEY, name TEXT, balance REAL)");
         handle.execute("INSERT INTO merchants (name, balance) VALUES ('Clock Town Milk Bar', 10000)");
