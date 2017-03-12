@@ -1,11 +1,9 @@
 package com.krishanwyse.prepaidcard;
 
-import com.krishanwyse.prepaidcard.db.BlockedCardDao;
-import com.krishanwyse.prepaidcard.db.CardDao;
-import com.krishanwyse.prepaidcard.db.MerchantDao;
-import com.krishanwyse.prepaidcard.db.TransactionDao;
+import com.krishanwyse.prepaidcard.db.*;
 import com.krishanwyse.prepaidcard.resources.CardResource;
 import com.krishanwyse.prepaidcard.resources.MerchantResource;
+import com.krishanwyse.prepaidcard.resources.StatementResource;
 import io.dropwizard.Application;
 import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
@@ -34,6 +32,7 @@ public class App extends Application<AppConfiguration> {
         handle.execute(
                 "CREATE TABLE transactions " +
                 "(id INTEGER PRIMARY KEY, card INT, merchant INT, remaining REAL, captured REAL, " +
+                "created TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, " +
                 "FOREIGN KEY(card) REFERENCES cards(id))"
         );
 
@@ -49,5 +48,8 @@ public class App extends Application<AppConfiguration> {
 
         final MerchantDao merchantDao = jdbi.onDemand(MerchantDao.class);
         env.jersey().register(new MerchantResource(merchantDao));
+
+        final StatementDao statementDao = jdbi.onDemand(StatementDao.class);
+        env.jersey().register(new StatementResource(statementDao));
     }
 }

@@ -14,6 +14,5 @@ serves as a demonstration. :grin:
 
 ## Future Improvements
 
-* Adding a statements endpoint
 * Moving to an on-disk database (probably PostgreSQL becaues of Heroku)
 * Actually transferring the money to the merchants
