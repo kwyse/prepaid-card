@@ -1,7 +1,7 @@
 database:
   driverClass: org.postgresql.Driver
-  url: "jdbc:postgresql://localhost/prepaid-card"
-  user: krishan
+  url: "jdbc:postgresql://localhost/prepaidcard"
+  user: pg
 
 server:
   applicationConnectors:
