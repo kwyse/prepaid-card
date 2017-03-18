@@ -3,14 +3,28 @@
 # A Simple Prepaid Card API
 
 Provides a REST API for common prepaid card operations, such as loading
-money onto a card and merchants authorizing payment. All data is stored in
-an in-memory SQLite database. Built with Dropwizard.
+money onto a card and merchants authorizing payment. Built with Dropwizard.
+All data is stored in a PostgreSQL database.
 
 You can play around with it [here](https://prepaid-card.herokuapp.com/cards).
-Heroku [doesn't play well](https://devcenter.heroku.com/articles/sqlite3) with
-SQLite, so you will likely see some strange things (creating cards and seeing
-the ROWID increase but seeing no cards on the root GET request). But it still
-serves as a demonstration. :grin:
+
+## Getting Started
+
+Build with Maven and then run pending database migrations. Ensure you have a
+PostgreSQL server running locally and a database named `prepaidcard` owned by
+a role named `pg` if you want the default settings to work. These details can
+be changed in `config.yml`.
+
+```bash
+$ mvn package
+$ java -jar ./target/prepaid-card-1.0-SNAPSHOT.jar db migrate config.yml
+```
+
+You can then start the server!
+
+```bash
+$ java -jar ./target/prepaid-card-1.0-SNAPSHOT.jar server config.yml
+```
 
 ## Usage
 
@@ -103,5 +117,4 @@ He sure is a big fan!
 
 ## Future Improvements
 
-* Moving to an on-disk database (probably PostgreSQL becaues of Heroku)
 * Actually transferring the money to the merchants
