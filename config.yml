@@ -1,6 +1,7 @@
 database:
-  driverClass: org.sqlite.JDBC
-  url: "jdbc:sqlite::memory:"
+  driverClass: org.postgresql.Driver
+  url: "jdbc:postgresql://localhost/prepaid-card"
+  user: krishan
 
 server:
   applicationConnectors:

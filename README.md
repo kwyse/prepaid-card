@@ -9,7 +9,7 @@ an in-memory SQLite database. Built with Dropwizard.
 You can play around with it [here](https://prepaid-card.herokuapp.com/cards).
 Heroku [doesn't play well](https://devcenter.heroku.com/articles/sqlite3) with
 SQLite, so you will likely see some strange things (creating cards and seeing
-the ROWID increase but seeing no cards on the root GET request). But is still
+the ROWID increase but seeing no cards on the root GET request). But it still
 serves as a demonstration. :grin:
 
 ## Usage

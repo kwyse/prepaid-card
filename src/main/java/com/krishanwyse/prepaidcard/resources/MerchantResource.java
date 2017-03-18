@@ -18,7 +18,7 @@ public class MerchantResource {
 
     @GET
     public List<Merchant> getAll() {
-        return merchantDao.getAll();
+        return merchantDao.selectAll();
     }
 
     @GET
@@ -33,12 +33,12 @@ public class MerchantResource {
         Merchant merchant = getMerchantIfExists(id);
         double balance = getNewBalanceIfValid(merchant, amount);
 
-        merchantDao.update(id, balance);
-        return merchantDao.findById(id);
+        merchantDao.updateBalance(id, balance);
+        return merchantDao.selectById(id);
     }
 
     private Merchant getMerchantIfExists(long id) {
-        Merchant merchant = merchantDao.findById(id);
+        Merchant merchant = merchantDao.selectById(id);
         if (merchant == null)
             throw new BadRequestException(String.format("Merchant with ID %d not found", id));
 

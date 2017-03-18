@@ -10,11 +10,11 @@ import java.util.List;
 @RegisterMapper(MerchantMapper.class)
 public interface MerchantDao {
     @SqlQuery("SELECT * FROM merchants")
-    List<Merchant> getAll();
+    List<Merchant> selectAll();
 
     @SqlQuery("SELECT * FROM merchants WHERE id = :id")
-    Merchant findById(@Bind("id") long id);
+    Merchant selectById(@Bind("id") long id);
 
     @SqlUpdate("UPDATE merchants SET balance = :balance WHERE id = :id")
-    long update(@Bind("id") long id, @Bind("balance") double balance);
+    long updateBalance(@Bind("id") long id, @Bind("balance") double balance);
 }

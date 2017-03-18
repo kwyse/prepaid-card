@@ -22,6 +22,6 @@ public class StatementResource {
     @GET
     @Path("/{id}")
     public List<StatementEntry> getAllForId(@PathParam("id") long id) {
-        return dao.getAll(id);
+        return dao.selectByCardId(id);
     }
 }

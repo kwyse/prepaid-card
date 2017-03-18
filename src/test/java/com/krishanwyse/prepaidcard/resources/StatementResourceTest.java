@@ -26,7 +26,7 @@ public class StatementResourceTest {
     @Test
     public void getAllWithNoStatements() {
         List<StatementEntry> empty = new ArrayList<>();
-        when(dao.getAll(1L)).thenReturn(Collections.emptyList());
+        when(dao.selectByCardId(1L)).thenReturn(Collections.emptyList());
 
         List<StatementEntry> actual = resources.client()
                 .target("/statements/1")
@@ -34,7 +34,7 @@ public class StatementResourceTest {
                 .get(new GenericType<List<StatementEntry>>() {});
 
         assertThat(actual).isEmpty();
-        verify(dao, times(1)).getAll(1L);
+        verify(dao, times(1)).selectByCardId(1L);
     }
 
     @Test
@@ -42,7 +42,7 @@ public class StatementResourceTest {
         List<StatementEntry> entries = new ArrayList<>();
         entries.add(new StatementEntry("Magic Coffee", 3, new Timestamp(1L)));
         entries.add(new StatementEntry("Magic Coffee", 4, new Timestamp(2L)));
-        when(dao.getAll(2L)).thenReturn(entries);
+        when(dao.selectByCardId(2L)).thenReturn(entries);
 
         List<StatementEntry> actual = resources.client()
                 .target("/statements/2")
@@ -52,6 +52,6 @@ public class StatementResourceTest {
         assertThat(actual).hasSameSizeAs(entries);
         assertThat(actual.get(0)).isEqualToComparingFieldByField(entries.get(0));
         assertThat(actual.get(1)).isEqualToComparingFieldByField(entries.get(1));
-        verify(dao, times(1)).getAll(2L);
+        verify(dao, times(1)).selectByCardId(2L);
     }
 }

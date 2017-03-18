@@ -12,7 +12,8 @@ public class CardMapper implements ResultSetMapper<Card> {
         return new Card(
                 set.getLong("id"),
                 set.getString("name"),
-                set.getDouble("balance")
+                set.getDouble("balance"),
+                set.getDouble("blocked")
         );
     }
 }
