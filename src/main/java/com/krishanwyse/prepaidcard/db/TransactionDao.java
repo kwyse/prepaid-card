@@ -9,7 +9,7 @@ import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 public interface TransactionDao {
     @SqlUpdate(
             "INSERT INTO transactions " +
-            "(card, merchant, remaining, captured) " +
+            "(card_id, merchant_id, remaining_amount, captured_amount) " +
             "VALUES (:card, :merchant, :remaining, :captured)"
     )
     @GetGeneratedKeys
@@ -18,9 +18,9 @@ public interface TransactionDao {
     @SqlQuery("SELECT * FROM transactions WHERE id = :id")
     Transaction findById(@Bind("id") long id);
 
-    @SqlQuery("SELECT SUM(remaining) FROM transactions JOIN cards ON transactions.card = :id")
+    @SqlQuery("SELECT SUM(remaining_amount) FROM transactions JOIN cards ON transactions.card_id = :id")
     int getBlockedAmountById(@Bind("id") long id);
 
-    @SqlUpdate("UPDATE transactions SET remaining = :remaining, captured = :captured WHERE id = :id")
+    @SqlUpdate("UPDATE transactions SET remaining_amount = :remaining, captured_amount = :captured WHERE id = :id")
     void update(@Bind("id") long id, @Bind("remaining") double remaining, @Bind("captured") double captured);
 }

@@ -30,11 +30,12 @@ public class CardResource {
 
     @GET
     @Path("/{id}")
-    public Card get(@PathParam("id") long id) {
-        // TODO: Refactor this to get blocked amount in one SQL call
-        Card card = getCardIfExists(id);
-        double blockedAmount = transactionDao.getBlockedAmountById(id);
-        card.setBlocked(blockedAmount);
+    public BlockedCard get(@PathParam("id") long id) {
+        BlockedCard card = blockedCardDao.findById(id);
+
+        // TODO: Refactor this check out back into private method after BlockedCard is removed
+        if (card == null)
+            throw new BadRequestException(String.format("Card with ID %d not found", id));
 
         return card;
     }

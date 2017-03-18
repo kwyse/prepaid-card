@@ -10,10 +10,19 @@ import java.util.List;
 @RegisterMapper(BlockedCardMapper.class)
 public interface BlockedCardDao {
     @SqlQuery(
-            "SELECT T.card_id AS id, C.name, C.balance, SUM(T.remaining_amount) AS blocked " +
+            "SELECT C.id, C.name, C.balance, SUM(T.remaining_amount) AS blocked " +
             "FROM cards C " +
-            "JOIN transactions T ON C.id = T.card_id " +
-            "GROUP BY T.card_id, C.name, C.balance"
+            "LEFT JOIN transactions T ON C.id = T.card_id " +
+            "GROUP BY C.id"
     )
     List<BlockedCard> getAll();
+
+    @SqlQuery(
+            "SELECT C.id, C.name, C.balance, SUM(T.remaining_amount) AS blocked " +
+            "FROM cards C " +
+            "LEFT JOIN transactions T ON C.id = T.card_id " +
+            "WHERE C.id = :id " +
+            "GROUP BY C.id"
+    )
+    BlockedCard findById(@Bind("id") long id);
 }

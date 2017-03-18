@@ -62,16 +62,16 @@ public class CardResourceTest {
 
     @Test
     public void getExistingId() throws Exception {
-        Card expected = new Card(1L, "John Smith", 1000);
-        when(cardDao.findById(1L)).thenReturn(expected);
+        BlockedCard expected = new BlockedCard(1L, "John Smith", 1000, 10);
+        when(blockedCardDao.findById(1L)).thenReturn(expected);
 
-        Card actual = resources.client().target("/cards/1").request().get(new GenericType<Card>() {});
+        BlockedCard actual = resources.client().target("/cards/1").request().get(new GenericType<BlockedCard>() {});
         assertThat(actual).isEqualToComparingFieldByField(expected);
     }
 
     @Test
     public void getNonExistingId() throws Exception {
-        when(cardDao.findById(2L)).thenReturn(null);
+        when(blockedCardDao.findById(2L)).thenReturn(null);
         assertThatThrownBy(() ->
                 resources.client().
                         target("/cards/2").
