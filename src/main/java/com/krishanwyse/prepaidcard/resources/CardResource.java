@@ -1,7 +1,6 @@
 package com.krishanwyse.prepaidcard.resources;
 
 import com.krishanwyse.prepaidcard.core.*;
-import com.krishanwyse.prepaidcard.db.BlockedCardDao;
 import com.krishanwyse.prepaidcard.db.CardDao;
 import com.krishanwyse.prepaidcard.db.TransactionDao;
 
@@ -14,30 +13,22 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class CardResource {
     private final CardDao cardDao;
-    private final BlockedCardDao blockedCardDao;
     private final TransactionDao transactionDao;
 
-    public CardResource(CardDao cardDao, BlockedCardDao blockedCardDao, TransactionDao transactionDao) {
+    public CardResource(CardDao cardDao, TransactionDao transactionDao) {
         this.cardDao = cardDao;
-        this.blockedCardDao = blockedCardDao;
         this.transactionDao = transactionDao;
     }
 
     @GET
-    public List<BlockedCard> getAll() {
-        return blockedCardDao.getAll();
+    public List<Card> getAll() {
+        return cardDao.selectAll();
     }
 
     @GET
     @Path("/{id}")
-    public BlockedCard get(@PathParam("id") long id) {
-        BlockedCard card = blockedCardDao.findById(id);
-
-        // TODO: Refactor this check out back into private method after BlockedCard is removed
-        if (card == null)
-            throw new BadRequestException(String.format("Card with ID %d not found", id));
-
-        return card;
+    public Card get(@PathParam("id") long id) {
+        return getCardIfExists(id);
     }
 
     @POST
@@ -105,7 +96,7 @@ public class CardResource {
     }
 
     private Card getCardIfExists(long id) {
-        Card card = cardDao.findById(id);
+        Card card = cardDao.selectById(id);
         if (card == null)
             throw new BadRequestException(String.format("Card with ID %d not found", id));
 
@@ -160,7 +151,7 @@ public class CardResource {
         double newCapturedAmount = transaction.getCaptured() - amount;
         transactionDao.update(transaction.getId(), transaction.getRemaining(), newCapturedAmount);
 
-        Card card = cardDao.findById(transaction.getCard());
+        Card card = cardDao.selectById(transaction.getCard());
         double newBalance = card.getBalance() + amount;
         cardDao.update(transaction.getCard(), newBalance);
 

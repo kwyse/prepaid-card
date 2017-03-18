@@ -83,7 +83,7 @@ public class MerchantResourceTest {
         )
                 .isInstanceOf(BadRequestException.class);
 
-//        verify(merchantDao, times(1)).findById(2L);
+//        verify(merchantDao, times(1)).selectById(2L);
     }
 
     @Test
@@ -120,7 +120,7 @@ public class MerchantResourceTest {
         )
                 .isInstanceOf(BadRequestException.class);
 
-//        verify(merchantDao, times(1)).findById(1L);
+//        verify(merchantDao, times(1)).selectById(1L);
     }
 
     @Test
@@ -139,6 +139,6 @@ public class MerchantResourceTest {
         )
                 .isInstanceOf(BadRequestException.class);
 
-//        verify(merchantDao, times(1)).findById(1L);
+//        verify(merchantDao, times(1)).selectById(1L);
     }
 }

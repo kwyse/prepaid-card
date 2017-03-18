@@ -18,9 +18,6 @@ public interface TransactionDao {
     @SqlQuery("SELECT * FROM transactions WHERE id = :id")
     Transaction findById(@Bind("id") long id);
 
-    @SqlQuery("SELECT SUM(remaining_amount) FROM transactions JOIN cards ON transactions.card_id = :id")
-    int getBlockedAmountById(@Bind("id") long id);
-
     @SqlUpdate("UPDATE transactions SET remaining_amount = :remaining, captured_amount = :captured WHERE id = :id")
     void update(@Bind("id") long id, @Bind("remaining") double remaining, @Bind("captured") double captured);
 }

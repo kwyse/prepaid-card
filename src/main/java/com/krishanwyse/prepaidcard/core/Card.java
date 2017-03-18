@@ -11,15 +11,14 @@ public class Card {
 
     @NotNull
     @JsonProperty
+    private String name;
+
+    @NotNull
+    @JsonProperty
     private double balance;
 
-    @NotNull
     @JsonProperty
     private double blocked;
-
-    @NotNull
-    @JsonProperty
-    private String name;
 
     public Card() {
     }
@@ -33,6 +32,13 @@ public class Card {
         this.id = id;
         this.name = name;
         this.balance = balance;
+    }
+
+    public Card(long id, String name, double balance, double blocked) {
+        this.id = id;
+        this.name = name;
+        this.balance = balance;
+        this.blocked = blocked;
     }
 
     public long getId() {

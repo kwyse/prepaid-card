@@ -1,7 +1,6 @@
 package com.krishanwyse.prepaidcard.resources;
 
 import com.krishanwyse.prepaidcard.core.*;
-import com.krishanwyse.prepaidcard.db.BlockedCardDao;
 import com.krishanwyse.prepaidcard.db.CardDao;
 import com.krishanwyse.prepaidcard.db.TransactionDao;
 import io.dropwizard.testing.junit.ResourceTestRule;
@@ -21,39 +20,38 @@ import static org.mockito.Mockito.*;
 
 public class CardResourceTest {
     private static final CardDao cardDao = mock(CardDao.class);
-    private static final BlockedCardDao blockedCardDao = mock(BlockedCardDao.class);
     private static final TransactionDao transactionDao = mock(TransactionDao.class);
 
     @ClassRule
     public static final ResourceTestRule resources = ResourceTestRule.builder()
-            .addResource(new CardResource(cardDao, blockedCardDao, transactionDao))
+            .addResource(new CardResource(cardDao, transactionDao))
             .build();
 
     @Test
     public void getAllWhenEmpty() throws Exception {
-        List<BlockedCard> cards = new ArrayList<>();
-        when(blockedCardDao.getAll()).thenReturn(cards);
+        List<Card> cards = new ArrayList<>();
+        when(cardDao.selectAll()).thenReturn(cards);
 
-        List<BlockedCard> result = resources.client()
+        List<Card> result = resources.client()
                 .target("/cards")
                 .request()
-                .get(new GenericType<List<BlockedCard>>() {});
+                .get(new GenericType<List<Card>>() {});
 
         assertThat(result).hasSize(0);
-        verify(blockedCardDao, times(1)).getAll();
+        verify(cardDao, times(1)).selectAll();
     }
 
     @Test
     public void getAllWhenNotEmpty() throws Exception {
-        List<BlockedCard> cards = new ArrayList<>();
-        cards.add(new BlockedCard(1L, "John Smith", 123, 7));
-        cards.add(new BlockedCard(2L, "Jane Doe", 67, 3));
-        when(blockedCardDao.getAll()).thenReturn(cards);
+        List<Card> cards = new ArrayList<>();
+        cards.add(new Card(1L, "John Smith", 123, 7));
+        cards.add(new Card(2L, "Jane Doe", 67, 3));
+        when(cardDao.selectAll()).thenReturn(cards);
 
-        List<BlockedCard> result = resources.client()
+        List<Card> result = resources.client()
                 .target("/cards")
                 .request()
-                .get(new GenericType<List<BlockedCard>>() {});
+                .get(new GenericType<List<Card>>() {});
 
         assertThat(result).hasSameSizeAs(cards);
         assertThat(result.get(0)).isEqualToComparingFieldByField(cards.get(0));
@@ -62,16 +60,16 @@ public class CardResourceTest {
 
     @Test
     public void getExistingId() throws Exception {
-        BlockedCard expected = new BlockedCard(1L, "John Smith", 1000, 10);
-        when(blockedCardDao.findById(1L)).thenReturn(expected);
+        Card expected = new Card(1L, "John Smith", 1000, 10);
+        when(cardDao.selectById(1L)).thenReturn(expected);
 
-        BlockedCard actual = resources.client().target("/cards/1").request().get(new GenericType<BlockedCard>() {});
+        Card actual = resources.client().target("/cards/1").request().get(new GenericType<Card>() {});
         assertThat(actual).isEqualToComparingFieldByField(expected);
     }
 
     @Test
     public void getNonExistingId() throws Exception {
-        when(blockedCardDao.findById(2L)).thenReturn(null);
+        when(cardDao.selectById(2L)).thenReturn(null);
         assertThatThrownBy(() ->
                 resources.client().
                         target("/cards/2").
@@ -80,7 +78,7 @@ public class CardResourceTest {
         )
                 .isInstanceOf(BadRequestException.class);
 
-//        verify(cardDao, times(1)).findById(2L);
+//        verify(cardDao, times(1)).selectById(2L);
     }
 
     @Test
@@ -102,7 +100,7 @@ public class CardResourceTest {
     public void loadWithPositiveAmount() {
         Card before = new Card(1L, "John Smith", 100);
         Card after = new Card(1L, "John Smith", 120);
-        when(cardDao.findById(1L)).thenReturn(before);
+        when(cardDao.selectById(1L)).thenReturn(before);
         when(cardDao.update(1L, 120)).thenReturn(1L);
 
         Card actual = resources.client()
@@ -125,7 +123,7 @@ public class CardResourceTest {
         )
                 .isInstanceOf(BadRequestException.class);
 
-//        verify(cardDao, times(0)).findById(1L);
+//        verify(cardDao, times(0)).selectById(1L);
     }
 
     @Test
@@ -134,7 +132,7 @@ public class CardResourceTest {
         Transaction expected = new Transaction(3L,1L,1L, 3, 0);
         Card card = new Card("John Smith", 100);
 
-        when(cardDao.findById(1L)).thenReturn(card);
+        when(cardDao.selectById(1L)).thenReturn(card);
         when(transactionDao.add(input)).thenReturn(3L);
 
         Transaction actual = resources.client()
@@ -144,7 +142,7 @@ public class CardResourceTest {
 
         // FIXME: This is failing because the transaction ID is not updating
 //        assertThat(actual).isEqualToComparingFieldByField(expected);
-//        verify(cardDao, times(1)).findById(1L);
+//        verify(cardDao, times(1)).selectById(1L);
         verify(cardDao, times(1)).update(1L, 97);
         verify(transactionDao, times(1)).add(any(Transaction.class));
     }
@@ -154,7 +152,7 @@ public class CardResourceTest {
         Transaction input = new Transaction(1, 150, 0);
         Card card = new Card("John Smith", 100);
 
-        when(cardDao.findById(1L)).thenReturn(card);
+        when(cardDao.selectById(1L)).thenReturn(card);
 
         assertThatThrownBy(() ->
                 resources.client()
@@ -164,7 +162,7 @@ public class CardResourceTest {
         )
                 .isInstanceOf(BadRequestException.class);
 
-//        verify(cardDao, times(1)).findById(1L);
+//        verify(cardDao, times(1)).selectById(1L);
 //        verify(cardDao, times(0)).update(any(Long.class), any(Double.class));
 //        verify(transactionDao, times(0)).add(any(Transaction.class));
     }
@@ -258,7 +256,7 @@ public class CardResourceTest {
         Transaction expected = new Transaction(21L, 2L, 2L, 4, 2);
         Update update = new Update(2, UpdateType.REFUND);
 
-        when(cardDao.findById(2L)).thenReturn(card);
+        when(cardDao.selectById(2L)).thenReturn(card);
         when(transactionDao.findById(21L)).thenReturn(input);
         Transaction actual = resources.client()
                 .target("/cards/2/transactions/21")

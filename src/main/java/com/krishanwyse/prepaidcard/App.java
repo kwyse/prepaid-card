@@ -33,12 +33,11 @@ public class App extends Application<AppConfiguration> {
         final DBI jdbi = factory.build(env, config.getDataSourceFactory(), "postgresql");
 
         final CardDao cardDao = jdbi.onDemand(CardDao.class);
-        final BlockedCardDao blockedCardDao = jdbi.onDemand(BlockedCardDao.class);
         final TransactionDao transactionDao = jdbi.onDemand(TransactionDao.class);
         final MerchantDao merchantDao = jdbi.onDemand(MerchantDao.class);
         final StatementDao statementDao = jdbi.onDemand(StatementDao.class);
 
-        env.jersey().register(new CardResource(cardDao, blockedCardDao, transactionDao));
+        env.jersey().register(new CardResource(cardDao, transactionDao));
         env.jersey().register(new MerchantResource(merchantDao));
         env.jersey().register(new StatementResource(statementDao));
     }
