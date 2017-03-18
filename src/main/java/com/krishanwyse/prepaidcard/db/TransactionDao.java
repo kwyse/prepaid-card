@@ -13,11 +13,11 @@ public interface TransactionDao {
             "VALUES (:card, :merchant, :remaining, :captured)"
     )
     @GetGeneratedKeys
-    long add(@BindBean Transaction transaction);
+    long insert(@BindBean Transaction transaction);
 
     @SqlQuery("SELECT * FROM transactions WHERE id = :id")
-    Transaction findById(@Bind("id") long id);
+    Transaction selectById(@Bind("id") long id);
 
     @SqlUpdate("UPDATE transactions SET remaining_amount = :remaining, captured_amount = :captured WHERE id = :id")
-    void update(@Bind("id") long id, @Bind("remaining") double remaining, @Bind("captured") double captured);
+    void updateAmount(@Bind("id") long id, @Bind("remaining") double remaining, @Bind("captured") double captured);
 }

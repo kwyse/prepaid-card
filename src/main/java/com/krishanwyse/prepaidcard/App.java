@@ -4,6 +4,7 @@ import com.krishanwyse.prepaidcard.db.*;
 import com.krishanwyse.prepaidcard.resources.CardResource;
 import com.krishanwyse.prepaidcard.resources.MerchantResource;
 import com.krishanwyse.prepaidcard.resources.StatementResource;
+import com.krishanwyse.prepaidcard.resources.TransactionResource;
 import io.dropwizard.Application;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.jdbi.DBIFactory;
@@ -37,8 +38,9 @@ public class App extends Application<AppConfiguration> {
         final MerchantDao merchantDao = jdbi.onDemand(MerchantDao.class);
         final StatementDao statementDao = jdbi.onDemand(StatementDao.class);
 
-        env.jersey().register(new CardResource(cardDao, transactionDao));
+        env.jersey().register(new CardResource(cardDao));
         env.jersey().register(new MerchantResource(merchantDao));
+        env.jersey().register(new TransactionResource(cardDao, transactionDao));
         env.jersey().register(new StatementResource(statementDao));
     }
 }

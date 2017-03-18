@@ -32,5 +32,5 @@ public interface CardDao {
     Card selectById(@Bind("id") long id);
 
     @SqlUpdate("UPDATE cards SET balance = :balance WHERE id = :id")
-    long update(@Bind("id") long id, @Bind("balance") double balance);
+    long updateBalance(@Bind("id") long id, @Bind("balance") double balance);
 }

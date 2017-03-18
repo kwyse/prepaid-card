@@ -29,7 +29,7 @@ public class MerchantResourceTest {
     @Test
     public void getAllWhenEmpty() throws Exception {
         List<Merchant> merchants = new ArrayList<>();
-        when(merchantDao.getAll()).thenReturn(merchants);
+        when(merchantDao.selectAll()).thenReturn(merchants);
 
         List<Merchant> result = resources.client()
                 .target("/merchants")
@@ -37,7 +37,7 @@ public class MerchantResourceTest {
                 .get(new GenericType<List<Merchant>>() {});
 
         assertThat(result).hasSize(0);
-        verify(merchantDao, times(1)).getAll();
+        verify(merchantDao, times(1)).selectAll();
     }
 
     @Test
@@ -46,7 +46,7 @@ public class MerchantResourceTest {
         merchants.add(new Merchant(1, "Magic Coffee", 10000));
         merchants.add(new Merchant(2, "Grim's Frozen Sandwiches", 6500));
         merchants.add(new Merchant(3, "Kraken Kale", 12000));
-        when(merchantDao.getAll()).thenReturn(merchants);
+        when(merchantDao.selectAll()).thenReturn(merchants);
 
         List<Merchant> result = resources.client()
                 .target("/merchants")
@@ -62,7 +62,7 @@ public class MerchantResourceTest {
     @Test
     public void getExistingId() throws Exception {
         Merchant expected = new Merchant(1, "Magic Coffee", 10000);
-        when(merchantDao.findById(1L)).thenReturn(expected);
+        when(merchantDao.selectById(1L)).thenReturn(expected);
 
         Merchant actual = resources.client()
                 .target("/merchants/1")
@@ -74,7 +74,7 @@ public class MerchantResourceTest {
 
     @Test
     public void getNonExistingId() throws Exception {
-        when(merchantDao.findById(2L)).thenReturn(null);
+        when(merchantDao.selectById(2L)).thenReturn(null);
         assertThatThrownBy(() ->
             resources.client().
                     target("/merchants/2").
@@ -83,15 +83,15 @@ public class MerchantResourceTest {
         )
                 .isInstanceOf(BadRequestException.class);
 
-//        verify(merchantDao, times(1)).selectById(2L);
+//        verify(merchantDao, times(1)).selectByCardId(2L);
     }
 
     @Test
     public void updateWithValidBalance() throws Exception {
         Merchant before = new Merchant(1, "Magic Coffee", 10000);
         Merchant after = new Merchant(1, "Magic Coffee", 9500);
-        when(merchantDao.findById(1L)).thenReturn(before).thenReturn(after);
-        when(merchantDao.update(1L, 9500)).thenReturn(1L);
+        when(merchantDao.selectById(1L)).thenReturn(before).thenReturn(after);
+        when(merchantDao.updateBalance(1L, 9500)).thenReturn(1L);
 
         Amount amount = new Amount(500);
         Merchant actual = resources.client()
@@ -100,14 +100,14 @@ public class MerchantResourceTest {
                 .put(Entity.json(amount), Merchant.class);
 
         assertThat(actual).isEqualToComparingFieldByField(after);
-        verify(merchantDao, times(2)).findById(1);
-        verify(merchantDao, times(1)).update(1L, 9500);
+        verify(merchantDao, times(2)).selectById(1);
+        verify(merchantDao, times(1)).updateBalance(1L, 9500);
     }
 
     @Test
     public void updateWithTooLargeAmount() throws Exception {
         Merchant merchant = new Merchant("Magic Coffee", 9000);
-        when(merchantDao.findById(1L)).thenReturn(merchant);
+        when(merchantDao.selectById(1L)).thenReturn(merchant);
 
         // TODO: This should check the error message
         // TODO: It should also check the other exception branch
@@ -120,13 +120,13 @@ public class MerchantResourceTest {
         )
                 .isInstanceOf(BadRequestException.class);
 
-//        verify(merchantDao, times(1)).selectById(1L);
+//        verify(merchantDao, times(1)).selectByCardId(1L);
     }
 
     @Test
     public void updateWithNegativeAmount() throws Exception {
         Merchant merchant = new Merchant("Magic Coffee", 9000);
-        when(merchantDao.findById(1L)).thenReturn(merchant);
+        when(merchantDao.selectById(1L)).thenReturn(merchant);
 
         // TODO: This should check the error message
         // TODO: It should also check the other exception branch
@@ -139,6 +139,6 @@ public class MerchantResourceTest {
         )
                 .isInstanceOf(BadRequestException.class);
 
-//        verify(merchantDao, times(1)).selectById(1L);
+//        verify(merchantDao, times(1)).selectByCardId(1L);
     }
 }
