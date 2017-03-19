@@ -1,6 +1,10 @@
-[![Build Status](https://travis-ci.org/kwyse/prepaid-card.svg?branch=master)](https://travis-ci.org/kwyse/prepaid-card)
-
 # A Simple Prepaid Card API
+
+| Service | Status |
+|---|---|
+| Travis CI | [![Travis](https://img.shields.io/travis/kwyse/prepaid-card.svg?style=flat)](https://travis-ci.org/kwyse/prepaid-card) |
+| AppVeyor | [![AppVeyor](https://img.shields.io/appveyor/ci/kwyse/prepaid-card.svg?style=flat)](https://ci.appveyor.com/project/kwyse/prepaid-card) |
+| Codecov | [![Codecov](https://img.shields.io/codecov/c/github/kwyse/prepaid-card.svg?style=flat)](https://codecov.io/gh/kwyse/prepaid-card) |
 
 Provides a REST API for common prepaid card operations, such as loading
 money onto a card and merchants authorizing payment. Built with Dropwizard.
