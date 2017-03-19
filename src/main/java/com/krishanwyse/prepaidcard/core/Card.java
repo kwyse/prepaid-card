@@ -17,6 +17,7 @@ public class Card {
     @JsonProperty
     private double balance;
 
+    @NotNull
     @JsonProperty
     private double blocked;
 

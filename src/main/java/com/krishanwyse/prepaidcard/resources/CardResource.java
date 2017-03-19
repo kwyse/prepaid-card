@@ -29,6 +29,7 @@ public class CardResource {
     }
 
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     public Card add(@Valid Card card) {
         long id = dao.insert(card);
         card.setId(id);
@@ -37,11 +38,11 @@ public class CardResource {
 
     @PUT
     @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
     public Card load(@PathParam("id") long id, Amount amount) {
         if (amount.get() < 0)
             throw new BadRequestException("Only a positive amount can be loaded onto this card");
 
-        // TODO: Make this a transaction
         Card card = getCardIfExists(id);
         double newBalance = card.getBalance() + amount.get();
 

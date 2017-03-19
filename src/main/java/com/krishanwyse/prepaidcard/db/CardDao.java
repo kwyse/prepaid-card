@@ -13,22 +13,10 @@ public interface CardDao {
     @GetGeneratedKeys
     long insert(@BindBean Card card);
 
-    @SqlQuery(
-            "SELECT C.id, C.name, C.balance, SUM(T.remaining_amount) AS blocked " +
-            "FROM cards C " +
-            "LEFT JOIN transactions T ON C.id = T.card_id " +
-            "GROUP BY C.id " +
-            "ORDER BY C.id ASC"
-    )
+    @SqlQuery("SELECT * FROM card_view")
     List<Card> selectAll();
 
-    @SqlQuery(
-            "SELECT C.id, C.name, C.balance, SUM(T.remaining_amount) AS blocked " +
-            "FROM cards C " +
-            "LEFT JOIN transactions T ON C.id = T.card_id " +
-            "WHERE C.id = :id " +
-            "GROUP BY C.id"
-    )
+    @SqlQuery("SELECT * FROM card_view WHERE id = :id")
     Card selectById(@Bind("id") long id);
 
     @SqlUpdate("UPDATE cards SET balance = :balance WHERE id = :id")
