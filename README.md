@@ -5,12 +5,13 @@
 | Travis CI | [![Travis](https://img.shields.io/travis/kwyse/prepaid-card.svg?style=flat)](https://travis-ci.org/kwyse/prepaid-card) |
 | AppVeyor | [![AppVeyor](https://img.shields.io/appveyor/ci/kwyse/prepaid-card.svg?style=flat)](https://ci.appveyor.com/project/kwyse/prepaid-card) |
 | Codecov | [![Codecov](https://img.shields.io/codecov/c/github/kwyse/prepaid-card.svg?style=flat)](https://codecov.io/gh/kwyse/prepaid-card) |
+| Codebeat | [![Codebeat](https://codebeat.co/badges/376c7c81-74a5-4dc4-8ffe-cc0be93980fb)](https://codebeat.co/projects/github-com-kwyse-prepaid-card-master) |
 
 Provides a REST API for common prepaid card operations, such as loading
 money onto a card and merchants authorizing payment. Built with Dropwizard.
 All data is stored in a PostgreSQL database.
 
-You can play around with it [here](https://prepaid-card.herokuapp.com/cards).
+You can play around with it [on Heroku](https://prepaid-card.herokuapp.com/cards).
 
 ## Getting Started
 
